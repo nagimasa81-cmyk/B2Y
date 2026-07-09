@@ -37,7 +37,7 @@ jobs:
       - name: Build executable
         shell: cmd
         run: |
-          pyinstaller --noconfirm --windowed --onedir --name Complaint_Service_Hub main.py
+          pyinstaller --noconfirm --windowed --onedir --name Complaint_Service_Hub BAT2YML.py
 
       - name: Copy config
         shell: cmd
