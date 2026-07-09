@@ -70,3 +70,9 @@ jobs:
         with:
           name: Complaint_Service_Hub_Distribution
           path: Complaint_Service_Hub_Distribution.zip
+
+- name: Show files
+  shell: cmd
+  run: |
+    dir
+    dir /s *.py
