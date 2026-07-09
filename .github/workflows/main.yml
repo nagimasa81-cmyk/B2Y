@@ -9,14 +9,20 @@ jobs:
     runs-on: windows-latest
 
     steps:
-
-          - name: Show files
-        shell: cmd
-        run: |
-        dir
-        dir /s *.py
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Show repository structure
+        shell: cmd
+        run: |
+          echo ===== Current Directory =====
+          cd
+
+          echo ===== Top Level =====
+          dir
+
+          echo ===== Python Files =====
+          dir /s *.py
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -36,22 +42,30 @@ jobs:
       - name: Copy config
         shell: cmd
         run: |
-          xcopy /E /I /Y config dist\Complaint_Service_Hub\config
+          if exist config (
+            xcopy /E /I /Y config dist\Complaint_Service_Hub\config
+          )
 
       - name: Copy masters
         shell: cmd
         run: |
-          xcopy /E /I /Y masters dist\Complaint_Service_Hub\masters
+          if exist masters (
+            xcopy /E /I /Y masters dist\Complaint_Service_Hub\masters
+          )
 
       - name: Copy templates
         shell: cmd
         run: |
-          xcopy /E /I /Y templates dist\Complaint_Service_Hub\templates
+          if exist templates (
+            xcopy /E /I /Y templates dist\Complaint_Service_Hub\templates
+          )
 
       - name: Copy profiles
         shell: cmd
         run: |
-          xcopy /E /I /Y profiles dist\Complaint_Service_Hub\profiles
+          if exist profiles (
+            xcopy /E /I /Y profiles dist\Complaint_Service_Hub\profiles
+          )
 
       - name: Create logs folder
         shell: cmd
@@ -61,9 +75,11 @@ jobs:
       - name: Copy README
         shell: cmd
         run: |
-          copy README_StartHere.txt dist\Complaint_Service_Hub\README_StartHere.txt
+          if exist README_StartHere.txt (
+            copy README_StartHere.txt dist\Complaint_Service_Hub\README_StartHere.txt
+          )
 
-      - name: Create ZIP package
+      - name: Create distribution ZIP
         shell: powershell
         run: |
           Compress-Archive `
@@ -76,5 +92,3 @@ jobs:
         with:
           name: Complaint_Service_Hub_Distribution
           path: Complaint_Service_Hub_Distribution.zip
-
-
