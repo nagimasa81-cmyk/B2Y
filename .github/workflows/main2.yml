@@ -1,5 +1,5 @@
 
-- name: Show files
+name: Show files
   shell: cmd
   run: |
     dir
