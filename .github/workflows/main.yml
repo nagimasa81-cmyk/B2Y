@@ -9,6 +9,12 @@ jobs:
     runs-on: windows-latest
 
     steps:
+
+          - name: Show files
+        shell: cmd
+        run: |
+        dir
+        dir /s *.py
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -71,8 +77,4 @@ jobs:
           name: Complaint_Service_Hub_Distribution
           path: Complaint_Service_Hub_Distribution.zip
 
-- name: Show files
-  shell: cmd
-  run: |
-    dir
-    dir /s *.py
+
