@@ -1,0 +1,1 @@
+BAT2YML.py を編集後、build_exe.bat を実行すると EXE 化します。
