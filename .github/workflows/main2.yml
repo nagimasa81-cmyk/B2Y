@@ -1,11 +1,4 @@
 
-name: Show files
-  shell: cmd
-  run: |
-    dir
-    dir /s *.py
-
-
 name: Build Complaint Service Hub
 
 on:
@@ -16,64 +9,25 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+
+      - name: Show files
+        run: |
+          dir
+          dir /s *.py
+        shell: cmd
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
-      - name: Install dependencies
+      - name: Install PyInstaller
         run: |
           python -m pip install --upgrade pip
           pip install pyinstaller
 
       - name: Build executable
-        shell: cmd
         run: |
           pyinstaller --noconfirm --windowed --onedir --name Complaint_Service_Hub main.py
-
-      - name: Copy config
         shell: cmd
-        run: |
-          xcopy /E /I /Y config dist\Complaint_Service_Hub\config
-
-      - name: Copy masters
-        shell: cmd
-        run: |
-          xcopy /E /I /Y masters dist\Complaint_Service_Hub\masters
-
-      - name: Copy templates
-        shell: cmd
-        run: |
-          xcopy /E /I /Y templates dist\Complaint_Service_Hub\templates
-
-      - name: Copy profiles
-        shell: cmd
-        run: |
-          xcopy /E /I /Y profiles dist\Complaint_Service_Hub\profiles
-
-      - name: Create logs folder
-        shell: cmd
-        run: |
-          if not exist dist\Complaint_Service_Hub\logs mkdir dist\Complaint_Service_Hub\logs
-
-      - name: Copy README
-        shell: cmd
-        run: |
-          copy README_StartHere.txt dist\Complaint_Service_Hub\README_StartHere.txt
-
-      - name: Create ZIP package
-        shell: powershell
-        run: |
-          Compress-Archive `
-            -Path "dist\Complaint_Service_Hub\*" `
-            -DestinationPath "Complaint_Service_Hub_Distribution.zip" `
-            -Force
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: Complaint_Service_Hub_Distribution
-          path: Complaint_Service_Hub_Distribution.zip
